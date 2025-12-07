@@ -8,7 +8,7 @@ install-dev:
 	$(PIPENV) install --dev
 
 run:
-	uvicorn app.main:app --reload
+	uvicorn app.main:app --reload --host 0.0.0.0 --port 8085
 
 test:
 	PYTHONPATH=. pytest -vv

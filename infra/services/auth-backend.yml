@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service-backend
+  namespace: auth-service
+  labels:
+    app: auth-service-backend
+    tier: backend
+  annotations:
+    maintainer: "SOAT - Grupo 75"
+    description: "Expor a API do backend via LoadBalancer"
+spec:
+  selector:
+    app: auth-service-backend
+  ports:
+    - port: 80
+      targetPort: 8085
+  type: LoadBalancer

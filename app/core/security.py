@@ -14,6 +14,7 @@ def validar_cpf(cpf: str) -> bool:
 def criar_jwt(cpf: str):
     payload = {
         "cpf": cpf,
+        "iss": settings.TOKEN_ISSUER,
         "exp": datetime.now(timezone.utc) + timedelta(minutes=settings.ACCESS_TOKEN_EXP_MINUTES),
         "iat": datetime.now(timezone.utc),
     }

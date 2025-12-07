@@ -1,0 +1,6 @@
+resources:
+  - ./namespace.yml
+  - ./secrets/auth-backend.yml
+  - ./deployments/auth-backend.yml
+  - ./services/auth-backend.yml
+  - ./hpas/auth-backend.yml

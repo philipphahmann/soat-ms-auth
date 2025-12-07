@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Auth API"
     SECRET_KEY: str = "secret"
     ALGORITHM: str = "HS256"
+    TOKEN_ISSUER: str = "auth_service"
     ACCESS_TOKEN_EXP_MINUTES: int = 10
 
 
