@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN pip install --upgrade pip pipenv
 
-COPY Pipfile Pipfile.lock /app/
+COPY . .
 
 RUN pipenv install --dev --deploy --system
 
@@ -25,8 +25,6 @@ RUN useradd -m appuser
 USER appuser
 
 COPY --from=builder /usr/local /usr/local
-
-COPY . .
 
 EXPOSE 8085
 
