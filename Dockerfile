@@ -26,6 +26,8 @@ USER appuser
 
 COPY --from=builder /usr/local /usr/local
 
+COPY . .
+
 EXPOSE 8085
 
 CMD ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8085"]
