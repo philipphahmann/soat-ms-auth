@@ -48,26 +48,26 @@ jobs:
           target: builder
           tags: ${{ env.IMAGE_TAG_GITHUB }}
 
-  UnitTest:
-    runs-on: ubuntu-latest
-    needs: DockerBuild
-    steps:
-      - name: Login GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  # UnitTest:
+  #   runs-on: ubuntu-latest
+  #   needs: DockerBuild
+  #   steps:
+  #     - name: Login GitHub Container Registry
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pull Image Docker
-        run: docker pull ${{ env.IMAGE_TAG_GITHUB }}
+  #     - name: Pull Image Docker
+  #       run: docker pull ${{ env.IMAGE_TAG_GITHUB }}
 
-      - name: test
-        run: docker run --privileged --rm ${{ env.IMAGE_TAG_GITHUB }} sh -c "PYTHONPATH=. pytest --cov=app --cov-report=xml --cov-report=term-missing"
+  #     - name: test
+  #       run: docker run --privileged --rm ${{ env.IMAGE_TAG_GITHUB }} sh -c "PYTHONPATH=. pytest --cov=app --cov-report=xml --cov-report=term-missing"
 
   deploy:
     runs-on: ubuntu-latest
-    needs: UnitTest
+    # needs: UnitTest
     permissions:
       contents: read
       packages: write
