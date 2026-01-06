@@ -15,7 +15,7 @@ RUN pip install --upgrade pip pipenv
 
 COPY Pipfile Pipfile.lock ./
 
-RUN pipenv install --dev
+RUN pipenv install --dev --system
 
 FROM python:3.13-slim AS final
 
