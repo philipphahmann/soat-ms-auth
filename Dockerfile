@@ -11,7 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pipenv install --dev --deploy --system
+RUN pip install --upgrade pip pipenv
+
+COPY Pipfile Pipfile.lock ./
+
+RUN pipenv install --dev
 
 FROM python:3.13-slim AS final
 
