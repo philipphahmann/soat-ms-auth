@@ -72,7 +72,7 @@ jobs:
             -e SONAR_TOKEN=$SONAR_TOKEN \
             -e THRESHOLD=${{ env.THRESHOLD }} \
             ${{ env.IMAGE_TAG_GITHUB }} \
-            sh -c "make coverage-xml && make sonar"
+            sh -c "PYTHONPATH=. pytest --cov=app --cov-report=xml --cov-fail-under=80 && pysonar --coverage-report coverage.xml"
 
   deploy_k8s:
     name: Deploy to Amazon EKS
