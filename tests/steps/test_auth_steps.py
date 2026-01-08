@@ -8,7 +8,6 @@ def set_cpf(cpf):
 
 @when('eu solicito a criação de um token para este CPF', target_fixture="response")
 def request_token(client, cpf_payload):
-    # O client aqui já está usando o FakeRepository injetado pelo conftest!
     return client.post("/tokens", json=cpf_payload)
 
 @then(parsers.parse('o sistema deve retornar o código de status {status_code:d}'))

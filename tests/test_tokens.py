@@ -19,20 +19,22 @@ def test_create_token_cached(client):
     # Primeiro request (Gera)
     client.post("/tokens", json=payload)
     
-    # Segundo request (Deve vir do Cache/Banco Fake)
+    # Segundo request (Deve vir do Cache)
     response = client.post("/tokens", json=payload)
     
     assert response.status_code == 200
     data = response.json()
-    # Aqui validamos se a lógica de reaproveitar token funcionou
-    # (Depende da implementação do UseCase setar source='cache')
+    
     if "source" in data:
         assert data["source"] == "cache"
 
 def test_create_token_invalid_cpf(client):
-    payload = {"cpf": "123"} # CPF Inválido
+    # Dado um CPF inválido
+    payload = {"cpf": "123"} 
     
+    # Quando chamo o endpoint
     response = client.post("/tokens", json=payload)
     
+    # Então deve retornar 400 com erro de CPF inválido
     assert response.status_code == 400
     assert response.json()["detail"] == "CPF inválido"
