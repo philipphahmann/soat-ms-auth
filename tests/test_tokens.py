@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.settings import settings
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 client = TestClient(app)
@@ -11,8 +11,8 @@ client = TestClient(app)
 def create_token(cpf: str, minutes: int = 10):
     payload = {
         "cpf": cpf,
-        "exp": datetime.utcnow() + timedelta(minutes=minutes),
-        "iat": datetime.utcnow(),
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=minutes),
+        "iat": datetime.now(timezone.utc),
     }
     return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
