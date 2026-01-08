@@ -110,8 +110,7 @@ Utilizamos o **SonarQube** para monitorar a qualidade do código e garantir que 
 
 Abaixo está o status atual da cobertura do projeto:
 
-![SonarQube Coverage](link-ou-caminho-para-seu-print-do-sonar.png)
-*(Substitua a imagem acima pelo print do seu dashboard do SonarQube indicando a % de cobertura)*
+![SonarQube Coverage](./img/code-coverage.png)
 
 ## 📦 CI/CD e Deploy
 
