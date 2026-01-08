@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.adapters.input.api.schemas import CpfRequest # Seu esquema Pydantic
+from app.adapters.input.api.schemas import CpfRequest
 from app.application.use_cases import CreateTokenUseCase
-# Importe as implementações concretas para injeção (pode usar uma lib como dependency-injector ou fazer manual)
+
 from app.adapters.output.dynamo_repository import DynamoDBTokenRepository
 from app.adapters.output.jwt_service import JwtCryptoService
 
