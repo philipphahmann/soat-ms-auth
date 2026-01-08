@@ -76,3 +76,8 @@ spec:
                 secretKeyRef:
                   name: auth-service-backend-secret
                   key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_SESSION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: auth-service-backend-secret
+                  key: AWS_SESSION_TOKEN
