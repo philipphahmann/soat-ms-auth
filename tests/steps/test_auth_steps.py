@@ -1,28 +1,22 @@
-import pytest
 from pytest_bdd import scenarios, given, when, then, parsers
 
-# Carrega os cenários
 scenarios('../features/auth.feature')
 
-@pytest.fixture
-def context():
-    return {}
+@given(parsers.parse('que possuo um cpf válido "{cpf}"'), target_fixture="cpf_payload")
+def set_cpf(cpf):
+    return {"cpf": cpf}
 
-@given(parsers.parse('que possuo um CPF válido "{cpf}"'))
-def cpf_valido(context, cpf):
-    context['payload'] = {"cpf": cpf}
-
-@when('eu solicito a criação de um token para este CPF')
-def solicitar_token(client, context, mock_dynamo_service):
-    mock_dynamo_service.get_token.return_value = None
-    
-    response = client.post("/tokens", json=context['payload'])
-    context['response'] = response
+@when('eu solicito a criação de um token para este CPF', target_fixture="response")
+def request_token(client, cpf_payload):
+    # O client aqui já está usando o FakeRepository injetado pelo conftest!
+    return client.post("/tokens", json=cpf_payload)
 
 @then(parsers.parse('o sistema deve retornar o código de status {status_code:d}'))
-def verificar_status(context, status_code):
-    assert context['response'].status_code == status_code
+def check_status(response, status_code):
+    assert response.status_code == status_code
 
 @then('a resposta deve conter um token de acesso')
-def verificar_token(context):
-    assert "token" in context['response'].json()
+def check_token(response):
+    data = response.json()
+    assert "token" in data
+    assert len(data["token"]) > 10
