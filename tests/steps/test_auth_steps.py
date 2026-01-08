@@ -1,13 +1,8 @@
 import pytest
 from pytest_bdd import scenarios, given, when, then, parsers
-from fastapi.testclient import TestClient
-from app.main import app
 
+# Carrega os cenários
 scenarios('../features/auth.feature')
-
-@pytest.fixture
-def client():
-    return TestClient(app)
 
 @pytest.fixture
 def context():
@@ -18,7 +13,9 @@ def cpf_valido(context, cpf):
     context['payload'] = {"cpf": cpf}
 
 @when('eu solicito a criação de um token para este CPF')
-def solicitar_token(client, context):
+def solicitar_token(client, context, mock_dynamo_service):
+    mock_dynamo_service.get_token.return_value = None
+    
     response = client.post("/tokens", json=context['payload'])
     context['response'] = response
 
