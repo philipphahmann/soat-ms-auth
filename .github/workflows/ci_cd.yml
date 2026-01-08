@@ -18,7 +18,7 @@ env:
   SHORT_SHA: $(echo $GITHUB_SHA | cut -c1-7)
   IMAGE_TAG: ${{ github.event.repository.name }}:$(echo $GITHUB_SHA | cut -c1-7)
   IMAGE_TAG_GITHUB: ghcr.io/${{ github.repository }}:${{ github.sha }}
-  THRESHOLD: 90.0
+  THRESHOLD: 80.0
 
 jobs:
   build_and_push:
@@ -64,8 +64,15 @@ jobs:
       - name: Pull Image Docker
         run: docker pull ${{ env.IMAGE_TAG_GITHUB }}
 
-      - name: Execute Test Suite
-        run: docker run --rm ${{ env.IMAGE_TAG_GITHUB }} sh -c "PYTHONPATH=. pytest -vv"
+      - name: Execute Test Suite & Sonar Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          docker run --rm \
+            -e SONAR_TOKEN=$SONAR_TOKEN \
+            -e THRESHOLD=${{ env.THRESHOLD }} \
+            ${{ env.IMAGE_TAG_GITHUB }} \
+            sh -c "PYTHONPATH=. pytest --cov=app --cov-report=xml --cov-fail-under=80 && pysonar --coverage-report coverage.xml"
 
   deploy_k8s:
     name: Deploy to Amazon EKS

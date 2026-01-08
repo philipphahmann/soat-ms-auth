@@ -17,7 +17,7 @@ coverage:
 	PYTHONPATH=. pytest --cov=app --cov-report=term-missing
 
 coverage-xml:
-	PYTHONPATH=. pytest --cov=app --cov-report=xml --cov-report=term-missing
+	PYTHONPATH=. pytest --cov=app --cov-report=xml --cov-report=term-missing --cov-fail-under=80
 
 sonar: coverage
 	pysonar --coverage-report coverage.xml
