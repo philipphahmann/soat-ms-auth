@@ -5,22 +5,20 @@ from fastapi import HTTPException
 
 from app.settings import settings
 
-
 def validar_cpf(cpf: str) -> bool:
     cpf = re.sub(r"\D", "", cpf)
     return len(cpf) == 11 and cpf.isdigit()
 
-
 def criar_jwt(cpf: str):
+    expiration = datetime.now(timezone.utc) + timedelta(minutes=settings.ACCESS_TOKEN_EXP_MINUTES)
     payload = {
         "cpf": cpf,
         "iss": settings.TOKEN_ISSUER,
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=settings.ACCESS_TOKEN_EXP_MINUTES),
+        "exp": expiration,
         "iat": datetime.now(timezone.utc),
     }
     token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
-    return token
-
+    return token, int(expiration.timestamp())
 
 def validar_jwt(token: str):
     try:

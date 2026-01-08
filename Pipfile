@@ -9,6 +9,7 @@ uvicorn = "*"
 pyjwt = "*"
 pydantic-settings = "*"
 httpx = "*"
+boto3 = "*"
 
 [dev-packages]
 pytest = "*"

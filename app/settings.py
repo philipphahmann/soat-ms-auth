@@ -10,5 +10,7 @@ class Settings(BaseSettings):
     TOKEN_ISSUER: str = "auth_service"
     ACCESS_TOKEN_EXP_MINUTES: int = 10
 
+    AWS_REGION: str = "us-east-1"
+    DYNAMODB_TABLE: str = "auth_tokens"
 
 settings = Settings()
