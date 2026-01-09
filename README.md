@@ -133,6 +133,3 @@ Os manifestos de infraestrutura estão localizados na pasta `infra/`:
 - **Service:** LoadBalancer para expor a API internamente ou externamente.
 - **HPA:** Horizontal Pod Autoscaler configurado para escalar baseado na utilização de CPU (target 75%).
 - **Secrets:** Gerenciamento seguro de credenciais via Kubernetes Secrets.
-
----
-**SOAT - Grupo 75**
