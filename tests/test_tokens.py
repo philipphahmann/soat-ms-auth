@@ -38,3 +38,32 @@ def test_create_token_invalid_cpf(client):
     # Então deve retornar 400 com erro de CPF inválido
     assert response.status_code == 400
     assert response.json()["detail"] == "CPF inválido"
+
+def test_validate_token_success(client):
+    # Dado um token válido (gerado previamente pelo próprio sistema)
+    payload_create = {"cpf": "21829365053"}
+    resp_create = client.post("/tokens", json=payload_create)
+    assert resp_create.status_code == 200
+    token = resp_create.json()["token"]
+
+    # Quando chamo a rota de validação
+    payload_validate = {"token": token}
+    response = client.post("/tokens/validate", json=payload_validate)
+
+    # Então deve retornar 200, valid=True e os dados decodificados
+    assert response.status_code == 200
+    body = response.json()
+    assert body["valid"] is True
+    assert body["data"]["cpf"] == "21829365053"
+    assert "exp" in body["data"]
+
+def test_validate_token_invalid(client):
+    # Dado um token completamente inválido
+    payload = {"token": "token.invalido.123"}
+
+    # Quando chamo a rota de validação
+    response = client.post("/tokens/validate", json=payload)
+
+    # Então deve retornar 401 Unauthorized
+    assert response.status_code == 401
+    assert response.json()["detail"] == "Token inválido ou expirado"
