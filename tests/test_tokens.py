@@ -66,8 +66,9 @@ def test_validate_token_invalid_header(client):
     assert response.json()["detail"] == "Token inválido ou expirado"
 
 def test_validate_token_missing_header(client):
-    # Testa sem enviar o header (deve dar 403 Forbidden padrão do FastAPI/HTTPBearer)
+    # Testa sem enviar o header
     response = client.get("/tokens/validate")
     
-    # O FastAPI retorna 403 quando o HTTPBearer é obrigatório e não é enviado
-    assert response.status_code == 403
+    # O FastAPI retorna 401 quando o HTTPBearer é obrigatório e não é enviado
+    assert response.status_code == 401
+    assert response.json()["detail"] == "Not authenticated"
