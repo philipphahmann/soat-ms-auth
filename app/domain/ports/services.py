@@ -4,7 +4,6 @@ from typing import Tuple, Dict, Any
 class CryptoService(ABC):
     @abstractmethod
     def generate_token(self, cpf: str) -> Tuple[str, int]:
-        """Retorna (token, timestamp_expiracao)"""
         pass
 
     @abstractmethod
