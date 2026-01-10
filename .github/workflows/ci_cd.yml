@@ -147,4 +147,5 @@ jobs:
           envsubst < infra/services/auth-backend.yml | sponge infra/services/auth-backend.yml
 
           kubectl apply -k infra/
+          kubectl rollout restart deployment/auth-service-backend -n auth-service
           kubectl rollout status deployment/auth-service-backend -n auth-service
