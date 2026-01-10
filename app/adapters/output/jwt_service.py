@@ -16,5 +16,4 @@ class JwtCryptoService(CryptoService):
         return token, int(expiration.timestamp())
 
     def decode_token(self, token: str):
-        # Implementar lógica de validação/decode existente aqui
         return jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])

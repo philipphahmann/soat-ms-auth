@@ -2,7 +2,6 @@ from datetime import datetime, timezone
 
 class CPF:
     def __init__(self, value: str):
-        # Regra de validação de CPF movida para cá
         import re
         clean_value = re.sub(r"\D", "", value)
         if len(clean_value) != 11 or not clean_value.isdigit():

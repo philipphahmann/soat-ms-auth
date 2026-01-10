@@ -36,3 +36,10 @@ class CreateTokenUseCase:
         self.repository.save(new_token)
         
         return new_token
+
+class ValidateTokenUseCase:
+    def __init__(self, crypto_service: CryptoService):
+        self.crypto_service = crypto_service
+
+    def execute(self, token: str):
+        return self.crypto_service.decode_token(token)
